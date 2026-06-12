@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 8%;
+    --muted: 240 5% 92%;
+    --muted-foreground: 240 4% 42%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 8%;
+    --border: 240 6% 88%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 258 90% 66%;
+    --accent-foreground: 0 0% 100%;
+  }
+  .dark {
+    --background: 240 23% 5%;
+    --foreground: 0 0% 96%;
+    --muted: 240 12% 12%;
+    --muted-foreground: 240 5% 62%;
+    --card: 240 16% 8%;
+    --card-foreground: 0 0% 96%;
+    --border: 240 10% 16%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 240 23% 5%;
+    --accent: 258 90% 66%;
+    --accent-foreground: 0 0% 100%;
+  }
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-background text-foreground antialiased; }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-brand-gradient bg-clip-text text-transparent;
+  }
+  .card-glow {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .card-glow:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -12px rgba(99, 102, 241, 0.35);
+    border-color: hsl(var(--primary) / 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
