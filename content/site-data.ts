@@ -129,6 +129,12 @@ export const experience = [
   },
 ];
 
+export type ProjectModule = {
+  name: string;
+  description: string;
+  objects: string; // e.g. "Codeunits: 50022, 50040 · Tables: 50028, 50032 · Pages: 30+"
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -141,6 +147,7 @@ export type Project = {
   outcomes: string[];
   lessons: string;
   featured?: boolean;
+  modules?: ProjectModule[]; // optional functional module breakdown
 };
 
 export const projects: Project[] = [
@@ -288,6 +295,146 @@ export const projects: Project[] = [
     ],
     lessons:
       "A rules framework beats point customizations — when the business changes its mind, you change configuration, not code.",
+  },
+  {
+    slug: "gsm-bc-extension",
+    title: "GSM LLC — Business Central Enterprise Extension Platform",
+    period: "2020 – 2026",
+    featured: true,
+    summary:
+      "A comprehensive, production-grade Microsoft Dynamics 365 Business Central AL extension platform built for GSM LLC — spanning 18 functional modules, ~1,100 AL source files, and 112 RDLC/RDL report layouts. Covers everything from EDI trading-partner integration and RF warehouse scanning to AI-powered inventory reservation, third-party freight APIs, and bi-directional D365 FnO synchronization.",
+    challenge:
+      "GSM LLC operates a highly complex supply chain: multiple retail EDI trading partners (Walmart, Amazon, SPS Commerce), a custom RF warehouse scanning workflow layered on Lanham WMS, multi-tier automatic inventory reservation logic, Flexport freight forwarding, FreightView rate shopping, bi-directional data sync with Dynamics 365 Finance & Operations, ACH electronic payments, label generation, and a vast reporting estate — all needing to function as a single coherent platform inside Business Central.",
+    solution: [
+      "Designed and built 18 functional sub-systems as a unified BC AL extension: each module owns its tables, codeunits, pages, and reports, with clean separation of concerns.",
+      "Implemented a full EDI sub-system (Aptean EDI + SPS Commerce) supporting 15+ X12 transaction sets — 810, 850, 855, 856, 940, 945 and more — with its own role center, permission sets, and multi-language translations.",
+      "Built a tiered automatic inventory reservation engine (Tier 1 / Tier 2 / No Tier / Academy / Backorder) running as a job queue with configurable date offsets per tier and shop-calendar awareness.",
+      "Engineered REST API integrations with Flexport (freight booking), FreightView (rate shopping), and D365 FnO (bi-directional shipment, inventory, and order sync via API pages and staging tables).",
+      "Delivered 305+ custom reports (AL + RDLC/RDL) covering sales, inventory, warehouse, finance, purchasing, production, shipping, and compliance; extended 10 standard BC reports.",
+      "Created browser-based control add-ins — a 1×1-pixel barcode scanner interface (Scanner.js) and an interactive BOM tree viewer (JSON-driven, recursive) — deployed in the BC web client.",
+      "Extended 95+ custom tables, 132 table extensions (Customer, Vendor, Item, Sales/Purchase Header/Line, Warehouse, Transfer, Assembly, Fixed Asset, CRM) and 250+ page extensions.",
+    ],
+    architecture:
+      "Single large AL extension on BC 21–26, structured as 18 functional modules sharing a common data model. Job Queue Entries drive async automation (EDI polling, reservation tiers, label dispatch, FnO sync). REST/JSON over HTTP for all external APIs. XMLports for EDI X12 parsing. ControlAddins for browser-native scanner and BOM tree UX. Azure DevOps CI/CD for automated AL build and deployment.",
+    stack: [
+      "AL (Business Central 21–26)",
+      "Aptean EDI / SPS Commerce (X12 EDI)",
+      "Lanham WMS / E-Ship (RF scanning)",
+      "Flexport REST API",
+      "FreightView REST API",
+      "D365 Finance & Operations REST API",
+      "NACHA ACH payment format",
+      "GS1-128 / UCC-128 label generation",
+      "ControlAddins (JavaScript)",
+      "RDLC / RDL report layouts",
+      "XMLports (200+)",
+      "Azure DevOps CI/CD",
+      "Dynamics 365 CRM / Dataverse",
+      "JSON / XML processing",
+    ],
+    outcomes: [
+      "Single unified extension platform replacing dozens of disconnected point customizations",
+      "15+ EDI transaction types automated end-to-end with Walmart, Amazon, and SPS Commerce",
+      "Tiered reservation engine processes thousands of sales lines per night with zero manual intervention",
+      "Flexport CI-to-invoice automation eliminated manual purchase invoice creation for all import shipments",
+      "FnO bi-directional sync enabling a live cross-system operational view of inventory and orders",
+      "305+ custom reports delivering analytics across every operational domain from one platform",
+      "Browser-native barcode scanner and BOM tree viewer eliminating context-switching for warehouse and production staff",
+    ],
+    lessons:
+      "At this scale, the extension is really a platform — module boundaries, naming conventions, and shared table ownership need architecture governance, not just developer convention. The biggest leverage point was the tiered reservation engine: encoding business rules into configurable parameters (tier, date offset, customer filter) meant ops could tune behaviour without any code changes. ControlAddins are underused in BC; the scanner and BOM viewer proved that rich browser-native UX is achievable without leaving the BC web client.",
+    modules: [
+      {
+        name: "1 · E-Commerce & Sales Order Import",
+        description: "Processes web shopping-cart orders via job queue entry, validates items and customers, creates BC Sales Orders, triggers engraving Transfer Order automation, and logs import errors.",
+        objects: "Codeunits: 50000, 50001, 50051, 50075 · Tables: 50025 (Shopping Cart Import), 50026 (Log) · Pages: Pag50001",
+      },
+      {
+        name: "2 · EDI Integration (Aptean / SPS Commerce)",
+        description: "Full X12 EDI engine supporting 15+ transaction sets (810, 850, 855, 856, 940, 945 and more) with trading partners Walmart, Amazon, and SPS Commerce. Includes its own role center, permission sets, and multi-language XLF translations.",
+        objects: "Codeunit: 14180808 (EDI Management BCW) + ~20 EDI codeunits · 175+ XMLports · 15+ EDI tables · 5 permission sets · Profile: EDI Manager · 12 XLF translation files",
+      },
+      {
+        name: "3 · Warehouse Management & RF Scanning",
+        description: "Custom WMS overlay on Lanham LAX: RF scanner workflows for pick, putaway, movement, bin count, physical inventory, packing station, wave pick, D2C pick, and directed put-away.",
+        objects: "Codeunits: 50022, 50029–50060, 50073–50094 · Tables: 50028 (Pallet), 50085 (Pick Consolidate), 50089 (Tote) · 30+ warehouse page extensions · ControlAddin: ScannerInterface + Scanner.js",
+      },
+      {
+        name: "4 · Inventory Reservation Engine",
+        description: "Tiered automatic reservation job: Tier 1, Tier 2, Academy, No-Tier, and Backorder passes with configurable date offsets, shop-calendar awareness, and OWR auto-release.",
+        objects: "Codeunits: 50025, 50039, 50083, 50084, 50087 · Table: 50160 (Reservation Cancellation Log) · Enum: 50005 (Tier Rating) · PageExt: Pag-Ext50106",
+      },
+      {
+        name: "5 · Flexport Freight Integration",
+        description: "REST API integration pulling Flexport commercial invoices, bookings, and shipment records into BC staging tables. Auto-creates purchase invoices from matched CI data.",
+        objects: "Codeunits: 50088, 50043, 50090 · Tables: 50109 (Flexport), 50103 (Log), 50147 (Micro Service) · API Pages: Pag50188 · Report: Rep50300 · Enums: 50027, 50033",
+      },
+      {
+        name: "6 · Finance & Accounting Automation",
+        description: "ACH/NACHA payment file generation, bulk vendor remittance emails, bank deposit post-print, batch invoice posting, IRS 1099 management, and AP-to-GL dashboard.",
+        objects: "Codeunits: 50013, 50019, 50020, 50048, 50066, 50082 · Reports: Rep50017, Rep50047, Rep50202, Rep50020 (Aged AP), Rep50002/23/33/263 (Aged AR) · Tables: Tab50118 (AP-GL Dashboard)",
+      },
+      {
+        name: "7 · Label Management & PDF Labels",
+        description: "Generates GS1-128/UCC, BOL, receive, production, and RFID labels via the Lanham label engine. Cloud PDF label pipeline queues requests, dispatches to PDF service, and stores for download.",
+        objects: "Codeunits: 50040, 50059, 50060, 50101, 50102, 50103 · Tables: 50151 (PDF Request), 50152 (Setup) · Pages: Pag50197, Pag50198 · Reports: UCC Package Label Rep50xxx (multiple variants)",
+      },
+      {
+        name: "8 · Document Management System (DMS)",
+        description: "Uploads and retrieves documents from Azure-backed external DMS via REST, links files to BC records, and provides a scan-to-attach workflow.",
+        objects: "Codeunits: 50004, 50061 · Tables: 50011 (DMS Log), 50046 (Document Attachment) · Pages: Pag50001, Pag50101, Pag50145, Pag50146 · PageExt: Pag-Ext50233",
+      },
+      {
+        name: "9 · FreightView Rate Shopping",
+        description: "REST integration to FreightView multi-carrier rate platform. Requests freight quotes, caches results, and allows carrier selection from within BC.",
+        objects: "Codeunit: 50070 · Tables: 50096 (Rates) · Pages: Pag50110, Pag50113 · Enums: 50023 (Freight Class), 50024 (Location Type), 50025 (Packaging) · PageExt: Pag-Ext50115",
+      },
+      {
+        name: "10 · D365 Finance & Operations Integration",
+        description: "Bi-directional BC ↔ FnO sync via REST API pages and staging tables. Exposes sales, purchase, transfer, inventory, customer, vendor, and item data to FnO; receives inventory transactions and resource charges inbound.",
+        objects: "Codeunits: 50100, 50101, 50104–50108 · API Pages: Pag50189–50214 · Staging Tables: 50153–50159 · Pages: Pag50199–50214 · Enum: 50036 (FNO Delete Type)",
+      },
+      {
+        name: "11 · BOM Tree Viewer (Control Add-in)",
+        description: "Interactive hierarchical Production BOM tree rendered in the BC web client. Server-side JSON tree generation (recursive) drives a client-side org-chart style viewer.",
+        objects: "Codeunit: 50089 (BOM Tree Generators) · ControlAddin: GDX BOM Tree Viewers + BOMOrgChart.css · Page: Pag50178 · PageExts: Pag-Ext50141, Pag-Ext50142",
+      },
+      {
+        name: "12 · Scanner Interface (Control Add-in)",
+        description: "Lightweight 1×1-pixel browser control add-in that captures barcode scanner input (USB HID / keyboard wedge) and fires a Scanned(Barcode) event into AL pages.",
+        objects: "ControlAddin: ScannerInterface.al (AL definition) · Scanner.js (JavaScript startup script)",
+      },
+      {
+        name: "13 · Email Automations",
+        description: "Automated email workflows for customer invoices, credit memos, vendor ACH remittances, monthly statements, and CSR notifications — with per-company recipient lists and attachment management.",
+        objects: "Codeunits: 50014, 50095, 50101 · Reports: Rep50220, Rep50219, Rep50243, Rep50298 · EnumExt: Email Scenario",
+      },
+      {
+        name: "14 · CRM & Credit Card Integration",
+        description: "Extensions to the BC Dynamics 365 CRM connector with GSM custom fields on synced entities, plus credit card transaction management for MTCCC and PSI payment processors.",
+        objects: "TableExts: Tab-Ext50122–50128 (CRM tables) · Tables: 50119, 50120 (CC transactions) · Pages: Pag50041, Pag50042, Pag50161 · Codeunit: 50097 · EnumExts: 50002, 50003",
+      },
+      {
+        name: "15 · Reports & Data Analysis",
+        description: "305+ custom reports spanning sales, inventory, warehouse, finance, purchasing, production, shipping, export, compliance, and batch automation — the primary analytics and operational document layer.",
+        objects: "~195 Report AL files + ~100 RDLC/RDL layouts + 10 Report Extensions; categories: Sales (45), Inventory (20), Warehouse (25), Finance (30), Purchasing (15), Shipping/Export (30), Transfer (10), Manufacturing (12), Automation (35), Compliance/EDI (8)",
+      },
+      {
+        name: "16 · Custom Tables & Data Model",
+        description: "~95 custom tables (new entities: pallets, totes, shopping cart, DMS, RFID, FnO staging, reservation log, credit card transactions, label queues) and 132 table extensions adding custom fields to every major BC table.",
+        objects: "Custom Tables: Tab50000–50160 (~95 tables) · Table Extensions: Tab-Ext50005 (Customer), Tab-Ext50012/13 (Sales), Tab-Ext50009 (Item), Tab-Ext50014 (Purchase), Tab-Ext50048/49 (Transfer) + 127 more",
+      },
+      {
+        name: "17 · Enums, Profiles & Permission Sets",
+        description: "40+ enumeration types covering customer tiers, RFID states, freight classes, label types, FnO event types, and approval states. Includes the EDI Manager profile and 5 layered EDI permission sets.",
+        objects: "Enums: 50000–50036 (40+ enums) + BCW EDI enums · EnumExts: 50001–50003 · Profile: EDI Manager · Permission Sets: ApteanEDIBCW (Full/Basic/Read/Process/Setup)",
+      },
+      {
+        name: "18 · Fixed Asset & Approval Workflow",
+        description: "Internal fixed asset purchase request and approval workflow with category hierarchy routing, delegation setup, and a BI dimension mapping table for Power BI reporting.",
+        objects: "Tables: GDX_Fixed_Asset_Request, GDX_Fixed_Asset_Category_Hierarchy, GDX_Approval_Entry, GDX_BI_Mapping · Pages: GDX FA Request Card/List/Tracker, Journal Approval List · TableExts: Tab-Ext50108, Tab-Ext50121",
+      },
+    ],
   },
   {
     slug: "hr-techno-functional",

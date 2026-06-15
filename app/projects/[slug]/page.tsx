@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Layers } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FadeIn } from "@/components/motion";
@@ -100,6 +100,31 @@ export default async function ProjectPage({
             </CardContent>
           </Card>
         </FadeIn>
+
+        {project.modules && project.modules.length > 0 && (
+          <FadeIn>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Layers className="h-5 w-5 text-primary" />
+                  Functional Modules
+                  <Badge variant="outline" className="ml-1">{project.modules.length}</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {project.modules.map((m, i) => (
+                    <div key={i} className="rounded-lg border bg-muted/30 p-4">
+                      <p className="font-semibold text-sm">{m.name}</p>
+                      <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{m.description}</p>
+                      <p className="mt-2.5 text-xs text-muted-foreground/60 font-mono">{m.objects}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </FadeIn>
+        )}
 
         <FadeIn>
           <Card className="border-primary/30">
