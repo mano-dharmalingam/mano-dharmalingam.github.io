@@ -755,7 +755,6 @@ export const projects: Project[] = [
     lessons:
       "Building approval workflows natively in BC keeps the logic visible to developers, testable in a sandbox, and independent of external service availability — no Power Automate dependency for a core internal process.",
   },
-  },
   {
     slug: "hr-techno-functional",
     title: "Techno-Functional HR & Finance Solutions",
