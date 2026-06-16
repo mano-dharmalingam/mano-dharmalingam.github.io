@@ -4,31 +4,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
-    --foreground: 240 10% 8%;
-    --muted: 240 5% 92%;
-    --muted-foreground: 240 4% 42%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 8%;
-    --border: 240 6% 88%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-    --accent: 258 90% 66%;
-    --accent-foreground: 0 0% 100%;
+    --background:         40 10% 98%;
+    --foreground:        220 14%  8%;
+    --muted:              40  8% 94%;
+    --muted-foreground:  220  9% 42%;
+    --card:                0  0% 100%;
+    --card-foreground:   220 14%  8%;
+    --border:            220 13% 89%;
+    --primary:           210 82% 40%;
+    --primary-foreground:  0  0% 100%;
+    --accent:            210 65% 93%;
+    --accent-foreground: 210 82% 35%;
   }
+
   .dark {
-    --background: 240 23% 5%;
-    --foreground: 0 0% 96%;
-    --muted: 240 12% 12%;
-    --muted-foreground: 240 5% 62%;
-    --card: 240 16% 8%;
-    --card-foreground: 0 0% 96%;
-    --border: 240 10% 16%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 240 23% 5%;
-    --accent: 258 90% 66%;
-    --accent-foreground: 0 0% 100%;
+    --background:        240 23%  5%;
+    --foreground:          0  0% 96%;
+    --muted:             240 12% 12%;
+    --muted-foreground:  240  5% 62%;
+    --card:              240 16%  8%;
+    --card-foreground:     0  0% 96%;
+    --border:            240 10% 16%;
+    --primary:           210 82% 58%;
+    --primary-foreground:  0  0% 100%;
+    --accent:            210 40% 20%;
+    --accent-foreground: 210 70% 88%;
   }
+
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body { @apply bg-background text-foreground antialiased; }
@@ -36,104 +38,26 @@
 
 @layer utilities {
   .text-gradient {
-    @apply bg-brand-gradient bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #1a8fe8 0%, #0058A3 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
+
   .card-glow {
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   }
   .card-glow:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 40px -12px rgba(99, 102, 241, 0.35);
-    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: 0 12px 40px -12px rgba(15, 108, 189, 0.28);
+    border-color: hsl(var(--primary) / 0.4);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-}
-/*
- * COLOR PATCH — Enterprise Architect Brand
- * =========================================
- * Paste this into your globals.css (after the existing :root block),
- * replacing the purple/violet accent with Microsoft enterprise blue.
- *
- * What changes:
- *   --accent      purple #8B5CF6  →  Microsoft blue #0F6CBD
- *   gradients     blue→purple     →  blue→blue (two-tone sapphire)
- *   card glow     indigo shadow   →  Microsoft blue shadow
- *   hero ambient  purple radial   →  blue radial only
- */
-
-/* ── 1. Override CSS variables ── */
-:root {
-  /* Replace purple accent with Microsoft enterprise blue */
-  --accent: 210 82% 40%;           /* #0F6CBD */
-  --accent-foreground: 0 0% 100%;
-
-  /* Slightly warmer background — feels premium, not clinical */
-  --background: 40 10% 98%;        /* #FAFAF8 warm white */
-  --muted: 40 8% 94%;              /* #F5F5F2 warm off-white */
-  --muted-foreground: 220 9% 42%;  /* slightly cooler mid-grey */
-
-  /* Tighten border to feel more refined */
-  --border: 220 13% 89%;
-}
-
-.dark {
-  --accent: 210 82% 55%;           /* brighter blue on dark */
-  --accent-foreground: 0 0% 100%;
-}
-
-/* ── 2. Brand gradient: blue → sapphire (no purple) ── */
-.bg-brand-gradient {
-  background-image: linear-gradient(135deg, #1a8fe8, #0F6CBD) !important;
-}
-
-/* ── 3. Text gradient: blue → sapphire (no purple) ── */
-.text-gradient {
-  background-image: linear-gradient(135deg, #1a8fe8, #0058A3) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  color: transparent !important;
-}
-
-/* ── 4. Card hover glow: Microsoft blue (was indigo) ── */
-.card-glow:hover {
-  box-shadow: 0 12px 40px -12px rgba(15, 108, 189, 0.30) !important;
-  border-color: hsl(var(--primary) / 0.4) !important;
-}
-
-/* ── 5. Hero ambient background: replace purple radial with blue-only ──
- *
- * The hero section has this Tailwind arbitrary class in the JSX:
- *   bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.15),transparent_55%),
- *       radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.12),transparent_55%)]
- *
- * Option A (CSS override — no JSX edit needed):
- */
-[class*="radial-gradient"][class*="rgba(139,92,246"] {
-  background-image:
-    radial-gradient(ellipse at top right,  rgba(15,108,189,0.12), transparent 55%),
-    radial-gradient(ellipse at bottom left, rgba(15,108,189,0.06), transparent 55%) !important;
-}
-
-/*
- * Option B (JSX edit — cleaner, recommended):
- * In your hero section JSX, find the div with the class above and replace:
- *   rgba(139,92,246,0.12)  →  rgba(15,108,189,0.07)
- * So the full class becomes:
- *   bg-[radial-gradient(ellipse_at_top_right,rgba(15,108,189,0.12),transparent_55%),
- *       radial-gradient(ellipse_at_bottom_left,rgba(15,108,189,0.07),transparent_55%)]
- */
-
-/* ── 6. Accent utility overrides ── */
-.bg-accent\/10 {
-  background-color: hsl(210 82% 40% / 0.10) !important;
-}
-.text-accent {
-  color: hsl(210 82% 40%) !important;
-}
-.border-primary\/30 {
-  border-color: hsl(var(--primary) / 0.25) !important;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
