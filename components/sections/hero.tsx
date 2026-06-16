@@ -15,7 +15,7 @@ export function Hero() {
     <section className="relative overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.15),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.12),transparent_55%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.15),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(15,108,189,0.07),transparent_55%)]"
       />
       <div className="container relative grid gap-12 py-20 sm:py-28 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div>
