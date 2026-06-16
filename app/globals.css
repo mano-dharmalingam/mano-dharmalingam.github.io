@@ -52,3 +52,88 @@
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+/*
+ * COLOR PATCH — Enterprise Architect Brand
+ * =========================================
+ * Paste this into your globals.css (after the existing :root block),
+ * replacing the purple/violet accent with Microsoft enterprise blue.
+ *
+ * What changes:
+ *   --accent      purple #8B5CF6  →  Microsoft blue #0F6CBD
+ *   gradients     blue→purple     →  blue→blue (two-tone sapphire)
+ *   card glow     indigo shadow   →  Microsoft blue shadow
+ *   hero ambient  purple radial   →  blue radial only
+ */
+
+/* ── 1. Override CSS variables ── */
+:root {
+  /* Replace purple accent with Microsoft enterprise blue */
+  --accent: 210 82% 40%;           /* #0F6CBD */
+  --accent-foreground: 0 0% 100%;
+
+  /* Slightly warmer background — feels premium, not clinical */
+  --background: 40 10% 98%;        /* #FAFAF8 warm white */
+  --muted: 40 8% 94%;              /* #F5F5F2 warm off-white */
+  --muted-foreground: 220 9% 42%;  /* slightly cooler mid-grey */
+
+  /* Tighten border to feel more refined */
+  --border: 220 13% 89%;
+}
+
+.dark {
+  --accent: 210 82% 55%;           /* brighter blue on dark */
+  --accent-foreground: 0 0% 100%;
+}
+
+/* ── 2. Brand gradient: blue → sapphire (no purple) ── */
+.bg-brand-gradient {
+  background-image: linear-gradient(135deg, #1a8fe8, #0F6CBD) !important;
+}
+
+/* ── 3. Text gradient: blue → sapphire (no purple) ── */
+.text-gradient {
+  background-image: linear-gradient(135deg, #1a8fe8, #0058A3) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* ── 4. Card hover glow: Microsoft blue (was indigo) ── */
+.card-glow:hover {
+  box-shadow: 0 12px 40px -12px rgba(15, 108, 189, 0.30) !important;
+  border-color: hsl(var(--primary) / 0.4) !important;
+}
+
+/* ── 5. Hero ambient background: replace purple radial with blue-only ──
+ *
+ * The hero section has this Tailwind arbitrary class in the JSX:
+ *   bg-[radial-gradient(ellipse_at_top_right,rgba(59,130,246,0.15),transparent_55%),
+ *       radial-gradient(ellipse_at_bottom_left,rgba(139,92,246,0.12),transparent_55%)]
+ *
+ * Option A (CSS override — no JSX edit needed):
+ */
+[class*="radial-gradient"][class*="rgba(139,92,246"] {
+  background-image:
+    radial-gradient(ellipse at top right,  rgba(15,108,189,0.12), transparent 55%),
+    radial-gradient(ellipse at bottom left, rgba(15,108,189,0.06), transparent 55%) !important;
+}
+
+/*
+ * Option B (JSX edit — cleaner, recommended):
+ * In your hero section JSX, find the div with the class above and replace:
+ *   rgba(139,92,246,0.12)  →  rgba(15,108,189,0.07)
+ * So the full class becomes:
+ *   bg-[radial-gradient(ellipse_at_top_right,rgba(15,108,189,0.12),transparent_55%),
+ *       radial-gradient(ellipse_at_bottom_left,rgba(15,108,189,0.07),transparent_55%)]
+ */
+
+/* ── 6. Accent utility overrides ── */
+.bg-accent\/10 {
+  background-color: hsl(210 82% 40% / 0.10) !important;
+}
+.text-accent {
+  color: hsl(210 82% 40%) !important;
+}
+.border-primary\/30 {
+  border-color: hsl(var(--primary) / 0.25) !important;
+}
