@@ -815,6 +815,7 @@ export const certifications = [
   {
     group: "Microsoft Certified",
     items: [
+      { name: "AI-901: Azure AI Fundamentals", issuer: "Microsoft", year: "2026" },
       { name: "MB-820: Dynamics 365 Business Central Developer Associate", issuer: "Microsoft", year: "2024–25" },
       { name: "MB-800: Dynamics 365 Business Central Functional Consultant", issuer: "Microsoft", year: "2024" },
     ],
