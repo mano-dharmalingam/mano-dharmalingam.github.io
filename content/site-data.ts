@@ -86,7 +86,7 @@ export const experience = [
       },
       {
         title: "ERP/EDI Tech Lead",
-        period: "Oct 2020 – Sep 2024",
+        period: "Oct 2021 – Sep 2024",
         points: [
           "Designed scalable Dynamics 365 Business Central frameworks enabling enterprise-grade performance optimization.",
           "Architected integrations between Business Central and third-party platforms: Flexport, Lanham, Aptean EDI, Simcrest, ChargeLogic.",
