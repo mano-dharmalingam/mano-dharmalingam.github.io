@@ -7,7 +7,7 @@ import { about, site } from "@/content/site-data";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "The career journey of Mano Dharmalingam — from C/AL developer on NAV 2009 to Technical Solutions Architect building AI-assisted ERP engineering practices.",
+    "The career journey of Mano Dharmalingam — from C/AL developer on NAV 2009 to Principal Solution Architect building AI-assisted ERP engineering practices.",
 };
 
 export default function AboutPage() {
