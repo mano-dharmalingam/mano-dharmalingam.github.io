@@ -7,7 +7,7 @@ import { site } from "@/content/site-data";
 
 export const metadata: Metadata = {
   title: "Resume",
-  description: "Download the resume of Mano Dharmalingam, Business Central Technical Solutions Architect.",
+  description: "Download the resume of Mano Dharmalingam, Principal Solution Architect (Dynamics 365 Business Central & Finance and Operations).",
 };
 
 export default function ResumePage() {
