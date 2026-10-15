@@ -25,7 +25,7 @@ export function Hero() {
             transition={{ duration: 0.5 }}
             className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-primary"
           >
-            Technical Solutions Architect · Microsoft Dynamics 365 Business Central
+            Principal Solution Architect · Microsoft Dynamics 365 BC &amp; F&amp;O
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
