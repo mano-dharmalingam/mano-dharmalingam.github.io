@@ -7,7 +7,7 @@ import { experience } from "@/content/site-data";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "10+ years in the Microsoft Dynamics ecosystem: GeoDataTek (Technical Solutions Architect, ERP/EDI Tech Lead), Solia Technology Services, and Jean Martin Systems.",
+    "10+ years in the Microsoft Dynamics ecosystem: GeoDataTek (Principal Solution Architect, Technical Solutions Architect, ERP/EDI Tech Lead), Solia Technology Services, and Jean Martin Systems.",
 };
 
 export default function ExperiencePage() {
