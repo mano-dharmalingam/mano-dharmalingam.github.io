@@ -12,7 +12,7 @@ const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Business Central Technical Solutions Architect`,
+    default: `${site.name} — Principal Solution Architect, Dynamics 365`,
     template: `%s · ${site.name}`,
   },
   description: seo.description,
