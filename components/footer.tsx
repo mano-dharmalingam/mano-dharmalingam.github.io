@@ -1,28 +1,25 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
 import { site } from "@/content/site-data";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/60 py-10">
-      <div className="container flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} {site.name} · {site.title}
-        </p>
-        <div className="flex items-center gap-4">
-          <a href={`mailto:${site.email}`} aria-label="Email" className="text-muted-foreground hover:text-foreground">
-            <Mail className="h-5 w-5" />
-          </a>
-          <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-foreground">
-            <Linkedin className="h-5 w-5" />
-          </a>
-          <a href={site.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-muted-foreground hover:text-foreground">
-            <Github className="h-5 w-5" />
-          </a>
-          <Link href="/contact" className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
-            Get in touch
-          </Link>
+    <footer className="border-t border-border">
+      <div className="container grid gap-8 py-12 sm:grid-cols-[1fr_auto] sm:items-end">
+        <div>
+          <p className="display text-2xl">{site.name}</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {site.title}, GeoDataTek. Based in {site.location}.
+          </p>
         </div>
+        <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+          <li><a className="link" href={`mailto:${site.email}`}>Email</a></li>
+          <li><a className="link" href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          <li><a className="link" href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><Link className="link" href="/resume">Résumé</Link></li>
+        </ul>
+      </div>
+      <div className="container pb-8 text-xs text-muted-foreground">
+        © {new Date().getFullYear()} {site.name}
       </div>
     </footer>
   );

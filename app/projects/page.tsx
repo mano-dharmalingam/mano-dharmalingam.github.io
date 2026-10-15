@@ -1,25 +1,22 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
-import { FadeIn } from "@/components/motion";
 import { projects } from "@/content/site-data";
 import { ProjectsGrid } from "@/components/projects-grid";
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "Work",
   description:
-    "Case studies: NAV to Business Central modernization, cloud implementations, EDI/API integrations, AppSource apps with CI/CD, process automation, and AI development tooling.",
+    "Case studies: D365 Sentinel AI testing, NAV to Business Central modernization, D365 Finance & Operations integration, EDI and Azure integrations, AppSource apps, and Power BI analytics.",
 };
 
 export default function ProjectsPage() {
   return (
-    <div className="container py-16">
-      <FadeIn>
-        <SectionHeading
-          eyebrow="Projects"
-          title="Case studies"
-          subtitle="Challenge → solution → architecture → outcome. Every project below shipped to production."
-        />
-      </FadeIn>
+    <div className="container py-16 sm:py-20">
+      <SectionHeading
+        as="h1"
+        title="Work"
+        subtitle="Case studies from ten years of Dynamics 365 delivery. Each one covers the problem, the solution, the architecture and what changed as a result."
+      />
       <ProjectsGrid projects={projects} />
     </div>
   );

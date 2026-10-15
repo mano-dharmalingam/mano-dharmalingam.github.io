@@ -1,23 +1,27 @@
 import { cn } from "@/lib/utils";
 
+/**
+ * Section opener: a short brass rule, a serif heading, and an optional standfirst.
+ * `eyebrow` is accepted for backwards compatibility but no longer rendered.
+ */
 export function SectionHeading({
-  eyebrow,
   title,
   subtitle,
   className,
+  as = "h2",
 }: {
   eyebrow?: string;
   title: string;
   subtitle?: string;
   className?: string;
+  as?: "h1" | "h2";
 }) {
+  const Tag = as;
   return (
-    <div className={cn("mb-12 max-w-2xl", className)}>
-      {eyebrow && (
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-primary">{eyebrow}</p>
-      )}
-      <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h2>
-      {subtitle && <p className="mt-3 text-muted-foreground">{subtitle}</p>}
+    <div className={cn("mb-12 max-w-3xl", className)}>
+      <span className="rule-mark mb-5" aria-hidden />
+      <Tag className={cn("display", as === "h1" ? "text-4xl sm:text-5xl" : "text-3xl sm:text-4xl")}>{title}</Tag>
+      {subtitle && <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">{subtitle}</p>}
     </div>
   );
 }

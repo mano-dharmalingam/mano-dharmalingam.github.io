@@ -5,72 +5,90 @@ import { usePathname } from "next/navigation";
 import * as React from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/about", label: "About" },
+  { href: "/projects", label: "Work" },
   { href: "/experience", label: "Experience" },
-  { href: "/projects", label: "Projects" },
+  { href: "/about", label: "About" },
+  { href: "/certifications", label: "Credentials" },
   { href: "/skills", label: "Skills" },
-  { href: "/certifications", label: "Certifications" },
-  { href: "/resume", label: "Resume" },
+  { href: "/resume", label: "Résumé" },
 ];
+
+function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(href + "/");
+}
 
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
 
+  React.useEffect(() => setOpen(false), [pathname]);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="font-display text-lg font-bold tracking-tight" aria-label="Home">
-          Mano <span className="text-gradient">Dharmalingam</span>
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/90 backdrop-blur">
+      <div className="container flex h-16 items-center justify-between gap-6">
+        <Link href="/" className="display text-xl leading-none" aria-label="Mano Dharmalingam, home">
+          Mano Dharmalingam
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Main navigation">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
+              aria-current={isActive(pathname, l.href) ? "page" : undefined}
               className={cn(
-                "rounded-md px-3 py-2 text-sm transition-colors hover:text-foreground",
-                pathname === l.href ? "text-foreground font-medium" : "text-muted-foreground"
+                "relative py-1 text-sm transition-colors hover:text-foreground",
+                isActive(pathname, l.href)
+                  ? "text-foreground after:absolute after:inset-x-0 after:-bottom-[21px] after:h-[2px] after:bg-accent"
+                  : "text-muted-foreground"
               )}
             >
               {l.label}
             </Link>
           ))}
-          <Link href="/contact">
-            <Button size="sm" className="ml-2">Contact</Button>
+          <Link
+            href="/contact"
+            className="rounded-md border border-foreground/25 px-3.5 py-1.5 text-sm font-medium transition-colors hover:border-foreground/60"
+          >
+            Contact
           </Link>
           <ThemeToggle />
         </nav>
 
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
           <ThemeToggle />
-          <Button variant="ghost" size="icon" aria-label="Open menu" onClick={() => setOpen(!open)}>
+          <button
+            type="button"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-md hover:bg-muted"
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+          </button>
         </div>
       </div>
 
       {open && (
-        <nav className="border-t border-border/60 bg-background md:hidden" aria-label="Mobile navigation">
-          <div className="container flex flex-col py-3">
-            {links.map((l) => (
+        <nav id="mobile-nav" className="border-t border-border bg-background lg:hidden" aria-label="Mobile navigation">
+          <div className="container flex flex-col py-2">
+            {[...links, { href: "/contact", label: "Contact" }].map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                onClick={() => setOpen(false)}
-                className="rounded-md px-3 py-3 text-sm text-muted-foreground hover:text-foreground"
+                aria-current={isActive(pathname, l.href) ? "page" : undefined}
+                className={cn(
+                  "border-b border-border py-3.5 text-base last:border-0",
+                  isActive(pathname, l.href) ? "text-foreground" : "text-muted-foreground"
+                )}
               >
                 {l.label}
               </Link>
             ))}
-            <Link href="/contact" onClick={() => setOpen(false)} className="px-3 py-3">
-              <Button size="sm" className="w-full">Contact</Button>
-            </Link>
           </div>
         </nav>
       )}

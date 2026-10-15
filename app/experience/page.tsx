@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/section-heading";
-import { Badge } from "@/components/ui/badge";
-import { FadeIn } from "@/components/motion";
 import { experience } from "@/content/site-data";
 
 export const metadata: Metadata = {
@@ -12,43 +10,41 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <div className="container py-16">
-      <FadeIn>
-        <SectionHeading
-          eyebrow="Experience"
-          title="Career timeline"
-          subtitle="A clear progression: developer → techno-functional consultant → tech lead → solutions architect."
-        />
-      </FadeIn>
+    <div className="container py-16 sm:py-20">
+      <SectionHeading
+        as="h1"
+        title="Experience"
+        subtitle="From C/AL developer to principal architect and board member: ten years in the Microsoft Dynamics ecosystem, most recent first."
+      />
 
-      <div className="relative ml-3 border-l border-border pl-8">
-        {experience.map((company, ci) => (
-          <FadeIn key={company.company} delay={ci * 0.06} className="relative pb-14 last:pb-0">
-            <span className="absolute -left-[2.34rem] top-1 h-3 w-3 rounded-full bg-brand-gradient ring-4 ring-background" aria-hidden />
-            <h2 className="font-display text-2xl font-bold">{company.company}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">{company.location}</p>
-
-            <div className="mt-6 space-y-8">
-              {company.roles.map((role) => (
-                <div key={role.title} className="rounded-xl border bg-card p-6 card-glow">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h3 className="font-display text-lg font-semibold">{role.title}</h3>
-                    <Badge variant="outline">{role.period}</Badge>
+      <ol>
+        {experience.map((company) => (
+          <li key={company.company} className="grid gap-6 border-t-2 border-foreground py-10 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-4">
+              <h2 className="display text-3xl">{company.company}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{company.location}</p>
+            </div>
+            <div className="lg:col-span-8">
+              {company.roles.map((role, ri) => (
+                <section key={role.title} className={ri > 0 ? "mt-10 border-t border-border pt-10" : ""}>
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+                    <h3 className="display text-2xl">{role.title}</h3>
+                    <p className="text-sm tabular-nums text-muted-foreground">{role.period}</p>
                   </div>
-                  <ul className="mt-4 space-y-2.5">
+                  <ul className="mt-5 space-y-3">
                     {role.points.map((pt, i) => (
-                      <li key={i} className="flex gap-3 text-sm text-muted-foreground">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                        {pt}
+                      <li key={i} className="flex gap-4 text-[15px] leading-relaxed text-foreground/85">
+                        <span className="mt-[0.75em] h-px w-4 shrink-0 bg-accent" aria-hidden />
+                        <span>{pt}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
+                </section>
               ))}
             </div>
-          </FadeIn>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   );
 }

@@ -1,56 +1,105 @@
+@import "@fontsource-variable/newsreader/opsz.css";
+@import "@fontsource-variable/newsreader/opsz-italic.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Design system: "director profile"
+  Ink navy + paper, with a single brass accent used for structure only
+  (rules, markers, active states) — never for body text.
+*/
 @layer base {
   :root {
-    --background:         40 10% 98%;
-    --foreground:        220 14%  8%;
-    --muted:              40  8% 94%;
-    --muted-foreground:  220  9% 42%;
+    --background:        220 20% 97%;   /* paper   #F6F7F9 */
+    --foreground:        215 52% 11%;   /* ink     #0E1B2C */
+    --muted:             216 21% 94%;   /*         #ECEFF3 */
+    --muted-foreground:  215 14% 37%;   /* slate   #515C6B */
     --card:                0  0% 100%;
-    --card-foreground:   220 14%  8%;
-    --border:            220 13% 89%;
-    --primary:           210 82% 40%;
+    --card-foreground:   215 52% 11%;
+    --border:            215 22% 87%;   /* rule    #D7DDE5 */
+    --primary:           211 55% 24%;   /* navy    #1B3B5F */
     --primary-foreground:  0  0% 100%;
-    --accent:            210 65% 93%;
-    --accent-foreground: 210 82% 35%;
+    --accent:             36 39% 47%;   /* brass   #A78149 */
+    --accent-foreground: 215 52% 11%;
+    --ink:               215 52% 11%;   /* fixed dark panel, both themes */
+    --ink-foreground:    213 25% 93%;
   }
 
   .dark {
-    --background:        240 23%  5%;
-    --foreground:          0  0% 96%;
-    --muted:             240 12% 12%;
-    --muted-foreground:  240  5% 62%;
-    --card:              240 16%  8%;
-    --card-foreground:     0  0% 96%;
-    --border:            240 10% 16%;
-    --primary:           210 82% 58%;
-    --primary-foreground:  0  0% 100%;
-    --accent:            210 40% 20%;
-    --accent-foreground: 210 70% 88%;
+    --background:        215 55%  9%;   /* #0A1424 */
+    --foreground:        213 25% 93%;
+    --muted:             217 45% 14%;
+    --muted-foreground:  214 16% 68%;
+    --card:              215 50% 12%;
+    --card-foreground:   213 25% 93%;
+    --border:            216 34% 21%;
+    --primary:           213 57% 76%;
+    --primary-foreground: 215 55%  9%;
+    --accent:             38 46% 60%;   /* #C9A66B */
+    --accent-foreground: 215 55%  9%;
+    --ink:               216 52%  6%;
+    --ink-foreground:    213 25% 93%;
   }
 
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
-  body { @apply bg-background text-foreground antialiased; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "kern", "liga";
+  }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  ::selection { background: hsl(var(--accent) / 0.3); }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
 }
 
-@layer utilities {
-  .text-gradient {
-    background-image: linear-gradient(135deg, #1a8fe8 0%, #0058A3 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+@layer components {
+  /* Serif display headings, tuned per size via optical sizing */
+  .display {
+    font-family: "Newsreader Variable", Georgia, serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
   }
 
-  .card-glow {
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  /* Short brass rule that marks the start of a section */
+  .rule-mark {
+    display: block;
+    width: 2.5rem;
+    height: 2px;
+    background: hsl(var(--accent));
   }
-  .card-glow:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px -12px rgba(15, 108, 189, 0.28);
-    border-color: hsl(var(--primary) / 0.4);
+
+  /* Underlined text link that thickens on hover */
+  .link {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--primary) / 0.35);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s, text-decoration-thickness 0.2s;
+  }
+  .link:hover {
+    text-decoration-color: hsl(var(--accent));
+    text-decoration-thickness: 2px;
+  }
+
+  .prose-body {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 68ch;
   }
 }
 

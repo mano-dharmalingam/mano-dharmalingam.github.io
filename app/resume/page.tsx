@@ -1,41 +1,35 @@
 import type { Metadata } from "next";
-import { Download, FileText } from "lucide-react";
 import { SectionHeading } from "@/components/section-heading";
-import { Button } from "@/components/ui/button";
-import { FadeIn } from "@/components/motion";
+import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/content/site-data";
 
 export const metadata: Metadata = {
-  title: "Resume",
+  title: "Résumé",
   description: "Download the resume of Mano Dharmalingam, Principal Solution Architect (Dynamics 365 Business Central & Finance and Operations).",
 };
 
 export default function ResumePage() {
   return (
-    <div className="container py-16">
-      <FadeIn>
-        <SectionHeading
-          eyebrow="Resume"
-          title="Download my resume"
-          subtitle="The latest PDF version, kept in sync with this site."
-        />
+    <div className="container py-16 sm:py-20">
+      <div className="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading as="h1" className="mb-0" title="Résumé" subtitle="The current PDF, kept in step with this site." />
         <div className="flex flex-wrap gap-3">
-          <a href={site.resumeFile} download="Mano-Dharmalingam-Resume.pdf">
-            <Button size="lg"><Download className="h-4 w-4" /> Download PDF</Button>
+          <a href={site.resumeFile} download="Mano-Dharmalingam-Resume.pdf" className={buttonVariants({ size: "lg" })}>
+            Download PDF
           </a>
-          <a href={site.resumeFile} target="_blank" rel="noopener noreferrer">
-            <Button size="lg" variant="outline"><FileText className="h-4 w-4" /> View in browser</Button>
+          <a href={site.resumeFile} target="_blank" rel="noopener noreferrer" className={buttonVariants({ size: "lg", variant: "outline" })}>
+            Open in new tab
           </a>
         </div>
-        <div className="mt-10 overflow-hidden rounded-xl border">
-          <object data={site.resumeFile} type="application/pdf" className="h-[80vh] w-full" aria-label="Resume PDF preview">
-            <p className="p-8 text-muted-foreground">
-              PDF preview isn&apos;t supported in this browser —{" "}
-              <a href={site.resumeFile} className="text-primary underline">download the resume</a> instead.
-            </p>
-          </object>
-        </div>
-      </FadeIn>
+      </div>
+      <div className="mt-10 overflow-hidden border border-border bg-card">
+        <object data={site.resumeFile} type="application/pdf" className="h-[80vh] w-full" aria-label="Résumé preview">
+          <p className="p-8 text-muted-foreground">
+            This browser can&apos;t preview PDFs.{" "}
+            <a href={site.resumeFile} className="link">Download the résumé</a> instead.
+          </p>
+        </object>
+      </div>
     </div>
   );
 }
