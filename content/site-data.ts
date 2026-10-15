@@ -4,10 +4,10 @@
 
 export const site = {
   name: "Mano Dharmalingam",
-  title: "Technical Solutions Architect",
+  title: "Principal Solution Architect",
   tagline: "I modernize ERP systems — from legacy NAV to AI-accelerated Business Central.",
   subtitle:
-    "10+ years architecting Microsoft Dynamics 365 Business Central solutions: upgrades, cloud migrations, enterprise integrations, and business process automation — delivered with an AI-assisted engineering workflow.",
+    "10+ years architecting Microsoft Dynamics 365 Business Central and Finance & Operations solutions: upgrades, cloud migrations, Azure integrations, and business process automation — delivered with an AI-assisted engineering workflow. Principal Solution Architect and Board member at GeoDataTek.",
   url: "https://mano-dharmalingam.github.io", // switch to a custom domain later if you buy one
   email: "mano.cse2012@gmail.com",
   phone: "+91 96290 77657",
@@ -66,6 +66,7 @@ export const highlights = [
   { year: "2024", text: "Promoted to Technical Solutions Architect; MB-800 certified" },
   { year: "2025", text: "MB-820 certified; published Microsoft-certified apps on AppSource with full CI/CD" },
   { year: "2026", text: "Building AI development tooling — custom Claude skills for Dynamics 365 engineering" },
+  { year: "2026", text: "Promoted to Principal Solution Architect; joined the GeoDataTek Board of Directors" },
 ];
 
 export const experience = [
@@ -74,8 +75,19 @@ export const experience = [
     location: "Chennai, India",
     roles: [
       {
+        title: "Principal Solution Architect · Board of Directors",
+        period: "Oct 2026 – Present",
+        points: [
+          "Serve on GeoDataTek's Board of Directors while leading solution architecture across Dynamics 365 Business Central, Finance & Operations, and Azure integration.",
+          "Own the architecture for the Business Central → D365 Finance & Operations transition, including Power BI-driven inventory valuation and opening-balance reconciliation for migration.",
+          "Lead AI initiatives: an AI-driven functional testing platform for D365 (D365 Sentinel), a zero-token-cost self-hosted customer support assistant, and document-extraction agents built in Copilot Studio.",
+          "Design Azure integration pipelines (Service Bus, Logic Apps Standard, ARM templates) connecting D365 F&O to external product-information platforms.",
+          "Lead a cross-functional team of ERP, web application, and UI/UX engineers.",
+        ],
+      },
+      {
         title: "Technical Solutions Architect",
-        period: "Oct 2024 – Present",
+        period: "Oct 2024 – Sep 2026",
         points: [
           "Lead architecture design and delivery of ERP and integration solutions across manufacturing, retail, logistics, and HR.",
           "Built and deployed Business Central apps published on Microsoft AppSource, enhancing client capabilities and product ecosystem value.",
@@ -175,6 +187,128 @@ export const projects: Project[] = [
     ],
     lessons:
       "AI delivers the most value when it encodes your team's actual standards — a skill that enforces your architecture beats a generic assistant. Roadmap: automated validations, smarter DevOps integrations, end-to-end AI-assisted workflows.",
+  },
+  {
+    slug: "d365-sentinel",
+    title: "D365 Sentinel — AI-Driven Functional Testing Platform",
+    period: "2026 – ongoing",
+    featured: true,
+    summary:
+      "Architected an AI-driven automated functional testing platform for Dynamics 365 Finance & Operations and Business Central, where Claude designs and executes end-to-end business-process tests through MCP and browser automation.",
+    challenge:
+      "ERP regression and UAT testing was manual and spreadsheet-driven. A real order-to-cash UAT tracker held 63 cases, most of which crossed system boundaries (F&O, Business Central, and Service Bus / Logic App integrations), so no single-system test tool covered them.",
+    solution: [
+      "Analyzed the live 63-case order-to-cash UAT tracker and classified it: 14 pure F&O cases, 43 F&O + Business Central cases, and 6 Service Bus / Logic App integration cases.",
+      "Designed an AI Test Design Engine backed by a Business Process Library, so tests are generated from business processes rather than hand-scripted clicks.",
+      "Specified a 28-skill Claude library covering navigation, data setup, validation, and cross-system reconciliation, plus enterprise enhancements for scale.",
+      "Authored five specification documents: platform architecture, the Claude project operating system, the skill library, the test design engine, and enterprise enhancements.",
+    ],
+    architecture:
+      "Claude orchestrates test runs via MCP; Chrome DevTools MCP and Python/Playwright drive the F&O and Business Central web clients; a .NET 9 / ASP.NET Core service with a React + TypeScript front end manages suites and results; runs are containerized with Docker and scheduled through Azure DevOps.",
+    stack: ["Claude (MCP)", "Chrome DevTools MCP", "Playwright", "Python", ".NET 9", "ASP.NET Core", "React", "TypeScript", "Azure DevOps", "Docker", "D365 F&O", "Business Central"],
+    outcomes: [
+      "Full architecture and five-document specification set completed",
+      "Cross-system test coverage model grounded in a real 63-case UAT tracker",
+      "Reusable 28-skill library design that turns business processes into executable tests",
+    ],
+    lessons:
+      "Most ERP test cases fail at the seams between systems, not inside one screen. Designing the test model around end-to-end business processes, not individual applications, is what makes AI-driven testing useful.",
+  },
+  {
+    slug: "ai-customer-support-assistant",
+    title: "Zero-Token-Cost AI Customer Support Assistant",
+    period: "2026 – ongoing",
+    featured: true,
+    summary:
+      "Designing a frontier-quality customer support assistant for consumer brand websites that runs entirely on self-hosted open-source models — answering order-status (WISMO) and stock questions from live ERP data at zero per-token cost.",
+    challenge:
+      "Commercial AI support platforms charge per resolution or per token, and a first prototype (a static knowledge file, SQL lookups, and a hosted LLM) didn't reach the quality bar. The assistant also had to stay independent of the current helpdesk platform, which may be replaced.",
+    solution: [
+      "Researched leading commercial support AI products and designed an architecture that matches their capabilities with an open-source stack.",
+      "Kept answers grounded in live data: order status and quantity on hand come from SQL Server views replicated from Business Central, not from the model's memory.",
+      "Designed guardrails mapped to the OWASP Top 10 for LLM applications, PII redaction, and a three-zone (public / internal / admin) endpoint security model.",
+      "Designed an evaluation test bench — a frozen, PII-redacted golden ticket set, multi-turn journeys, tool-calling accuracy, red-teaming, and load tests — scored by deterministic checks, independent judge models, and blind human grading, with a paid commercial bot run in parallel as a benchmark.",
+    ],
+    architecture:
+      "Self-hosted LLMs served with vLLM behind an open-source conversation-orchestration framework; retrieval via embeddings + reranker over a vector store; tool calls to ERP-replicated SQL views for order and stock data; guardrail and PII layers on input and output; tracing and evaluation through an open-source observability stack.",
+    stack: ["Self-hosted LLMs (vLLM)", "RAG", "Vector search + reranking", "Guardrails", "PII redaction", "SQL Server", "Business Central data", "Python", "LLM evaluation"],
+    outcomes: [
+      "Architecture blueprint with a zero per-token-cost operating model",
+      "Evidence-based evaluation framework to prove quality against a commercial benchmark before rollout",
+      "Helpdesk-independent design that survives a platform change",
+    ],
+    lessons:
+      "Management won't buy an AI claim on trust — they buy a measured result. Building the test bench before the final bot keeps every design decision honest.",
+  },
+  {
+    slug: "copilot-bill-extractor",
+    title: "Customs Document Extraction Agent (Copilot Studio)",
+    period: "2026",
+    summary:
+      "A Microsoft Copilot Studio agent that reads multi-document freight customs packets and returns clean, structured header and line-item tables ready for Excel and downstream ERP entry.",
+    challenge:
+      "Each import shipment arrives as a bundled packet — freight invoice, CBP Form 7501 entry summary, commercial invoice, and air waybill — and the team was re-keying values from all four into spreadsheets by hand.",
+    solution: [
+      "Built an agent in Copilot Studio that identifies each document type inside a packet and extracts the relevant fields from each.",
+      "Normalized the output into two consistent tables — HEADER and LINE ITEMS — regardless of how the source documents are laid out.",
+      "Designed a Power Automate step to deliver the result as a downloadable .xlsx file.",
+    ],
+    architecture:
+      "Copilot Studio agent with a frontier LLM for document understanding → structured HEADER / LINE ITEMS schema → Power Automate flow for Excel output.",
+    stack: ["Microsoft Copilot Studio", "Claude", "Power Automate", "Excel", "Document AI"],
+    outcomes: [
+      "Removes manual re-keying across four document types per shipment",
+      "Consistent, Excel-ready tables from inconsistent source layouts",
+    ],
+    lessons:
+      "Fix the output schema first. Once the agent always returns the same two tables, every downstream consumer — Excel, Power Automate, the ERP — becomes simple.",
+  },
+  {
+    slug: "salsify-logic-apps-integration",
+    title: "D365 F&O → Salsify Product Data Pipeline",
+    period: "2026 – ongoing",
+    summary:
+      "An event-driven Azure integration that publishes product item data from Dynamics 365 Finance & Operations to the Salsify product-information platform.",
+    challenge:
+      "Product data maintained in the ERP had to reach the PIM platform reliably and on schedule, without manual Excel exports and uploads.",
+    solution: [
+      "Designed the pipeline D365 F&O → Azure Service Bus → Logic Apps Standard → secure file transfer to Salsify.",
+      "Phase 1: delivered an ARM-templated Logic Apps Standard workflow with an HTTP trigger accepting base64 file payloads, plus a Python test harness.",
+      "Phase 2: extending F&O with the updated product fields and wiring the full Service Bus-driven flow, with on-demand Excel export retained as a fallback.",
+    ],
+    architecture:
+      "F&O publishes item exports to a Service Bus queue; a Logic Apps Standard workflow consumes the message, decodes the payload, and transfers the file to Salsify. Infrastructure is defined as ARM templates for repeatable deployment.",
+    stack: ["D365 Finance & Operations", "Azure Service Bus", "Azure Logic Apps Standard", "ARM templates", "Python", "FTP"],
+    outcomes: [
+      "Phase 1 workflow and test harness delivered",
+      "Full pipeline on track for go-live in January 2027",
+    ],
+    lessons:
+      "Put a queue between the ERP and any external partner. It decouples release cycles and gives you retries and replay for free.",
+  },
+  {
+    slug: "power-bi-inventory-analytics",
+    title: "Inventory Analytics & Migration Reconciliation (Power BI)",
+    period: "2026 – ongoing",
+    summary:
+      "Power BI reporting and automation supporting the Business Central → D365 Finance & Operations transition: an ABC inventory classification model for executives, and an inventory valuation rebuild used to reconcile opening balances for the F&O load.",
+    challenge:
+      "Leadership needed a clear view of which items drive revenue, margin, value, and carrying cost, and the migration needed trustworthy inventory opening balances — both from the same Business Central data.",
+    solution: [
+      "Designed an ABC Inventory Analysis report on its own semantic model over the BI data warehouse, with Revenue, Margin, Value, and Carrying-cost classifications and date slicers, covering Business Central and F&O ABC views.",
+      "Scoped the analysis to sellable inventory items and kept the agreed revenue cut-off logic (80% / 96%).",
+      "Recreated the Business Central Inventory Valuation report in Power BI from the replicated database.",
+      "Leading automation of D365 F&O inventory journal import-file generation from the same valuation source, split into 5,000-line journals.",
+    ],
+    architecture:
+      "Business Central replicated SQL / BI data warehouse → Power BI semantic models via on-premises gateway → executive reports; the same SQL valuation function feeds a web tool that generates F&O inventory journal import files.",
+    stack: ["Power BI", "DAX", "SQL Server", "Business Central", "D365 F&O data import", "On-premises data gateway"],
+    outcomes: [
+      "Single source of truth for inventory value used by both executive reporting and migration",
+      "Repeatable F&O opening-balance file generation replacing manual spreadsheets",
+    ],
+    lessons:
+      "Migration reconciliation and executive reporting want the same numbers. Building both on one valuation source removes a whole class of 'why don't these match?' questions.",
   },
   {
     slug: "nav-to-bc-modernization",
@@ -862,7 +996,7 @@ export const about = {
   story: [
     "My career in the Microsoft Dynamics ecosystem started in 2015, writing C/AL on NAV 2009 at Jean Martin Systems in Chennai. What hooked me wasn't the code — it was watching a payroll process that took a team days collapse into a single posted journal. ERP work is business transformation you can measure.",
     "Three years onsite in Muscat, Oman taught me the half of this job no IDE can: sitting with users, extracting real requirements from vague complaints, and solving problems on the spot with the client watching. I came back a techno-functional consultant — someone who designs the process and then builds it.",
-    "At GeoDataTek I grew from ERP/EDI Tech Lead to Technical Solutions Architect, moving from building solutions to designing them: integration architectures across Flexport, Aptean, and Lanham; NAV-to-cloud migration programs; Microsoft-certified AppSource products with full CI/CD. Along the way I've executed every major upgrade path in the product's history — NAV 2009 through Business Central 26 Cloud.",
+    "At GeoDataTek I grew from ERP/EDI Tech Lead to Technical Solutions Architect and then Principal Solution Architect, and I now also serve on the company's Board of Directors. The arc has been from building solutions to designing them: integration architectures across Flexport, Aptean, and Lanham; NAV-to-cloud migration programs; Microsoft-certified AppSource products with full CI/CD. Along the way I've executed every major upgrade path in the product's history — NAV 2009 through Business Central 26 Cloud.",
     "Now I'm focused on the next shift: AI-assisted engineering. I've built custom Claude skills that review code and enforce architecture standards automatically — because I believe the architects who thrive next are the ones who turn AI from a novelty into team infrastructure.",
   ],
   philosophy: [
@@ -889,7 +1023,7 @@ export const about = {
 
 export const seo = {
   description:
-    "Mano Dharmalingam — Technical Solutions Architect specializing in Microsoft Dynamics 365 Business Central: ERP modernization, NAV-to-BC upgrades, cloud migrations, EDI/API integrations, AppSource apps, and AI-assisted development.",
+    "Mano Dharmalingam — Principal Solution Architect specializing in Microsoft Dynamics 365 Business Central and Finance & Operations: ERP modernization, NAV-to-BC upgrades, cloud migrations, EDI/API integrations, AppSource apps, and AI-assisted development.",
   keywords: [
     "Business Central Technical Architect", "Dynamics 365 Business Central consultant", "NAV to Business Central upgrade",
     "Business Central integration architect", "AppSource developer", "ERP modernization", "AL developer",
